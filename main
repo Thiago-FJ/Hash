@@ -1,0 +1,69 @@
+from random import randint
+from time import sleep
+tab = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+Jp = 9
+Fim = True
+R = ""
+
+def grid():
+    print (3*"+---------"+"+" + "\n|"," "*7,"|"," "*7,"|"," "*7,"|")
+    print("|", " " * 2, tab[0], " " * 2, "|", " " * 2, tab[1], " " * 2, "|", " " * 2, tab[2], " " * 2, "|""\n|"," "*7,"|"," "*7,"|"," "*7,"|")
+    print (3*"+---------"+"+" + "\n|"," "*7,"|"," "*7,"|"," "*7,"|")
+    print("|", " " * 2, tab[3], " " * 2, "|", " " * 2, tab[4], " " * 2, "|", " " * 2, tab[5], " " * 2,"|""\n|"," "*7,"|"," "*7,"|"," "*7,"|")
+    print(3 * "+---------" + "+" + "\n|", " " * 7, "|", " " * 7, "|", " " * 7, "|")
+    print("|", " " * 2, tab[6], " " * 2, "|", " " * 2, tab[7], " " * 2, "|", " " * 2, tab[8], " " * 2,"|""\n|"," "*7,"|"," "*7,"|"," "*7,"|")
+    print(3 * "+---------" + "+")
+def jogador():
+    global Jp
+    J = int(input("insira qual número você deseja jogar: "))
+    for _ in tab:
+        if J not in tab:
+            print("Jogada impossível!")
+            while J not in tab:
+                J = int(input("insira qual número você deseja jogar: "))
+    tab[J] = "@"
+    Jp-= 1
+def computador():
+    global Jp
+    C = randint(0, 8)  ##PC
+    for numbers in tab:
+        if C not in tab:
+            while C not in tab:
+                C = randint(0, 8)
+    tab[C] = "X"
+    Jp-=1
+def vitória(l):
+    global Fim,R,saida
+    if (tab[0] == l) & (tab[1] == l) & (tab[2] == l)| \
+    (tab[3] == l) & (tab[4] == l) & (tab[5]==l)| \
+    (tab[6] == l) & (tab[7] == l) & (tab[8] == l) | \
+    (tab[0] == l) & (tab[3] == l) & (tab[6] == l) | \
+    (tab[1] == l) & (tab[4] == l) & (tab[7] == l) | \
+    (tab[2] == l) & (tab[5] == l) & (tab[8] == l) | \
+    (tab[0] == l) & (tab[4] == l) & (tab[8] == l) | \
+    (tab[2] == l) & (tab[4] == l) & (tab[6] == l) :
+        if l == "@":
+            print ("Jogador é o vencedor")
+            saida()
+        elif l == "X":
+            print ("Computador é o vencedor")
+            saida()
+def jogada_possivel():
+    global Fim, saída
+    if Jp == 0:
+        print ("Deu velha!")
+        saida()
+def saída():
+    global R, Fim,tab, Jp
+    R = (input("Você deseja continuar jogando?\n Se sim aperte [S]\n Se não aperte [N]"))
+    if R == "N" or R == "n":
+        print ("Fechando o jogo, aguarde...")
+        sleep(5)
+        Fim =False
+    elif R == "S" or R=="s":
+        Jp = 9
+        tab = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    else:
+        Fim = True
+while Fim == True:
+    grid(), jogador (), vitória ("X"), jogada_possivel(), computador(), vitória("@"),jogada_possivel()
